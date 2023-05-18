@@ -1,0 +1,42 @@
+#ANTES DE LANZAR ESTA APLICACION DEBE INSTALAR IN LIBRERIA QUE SE DESCARGA AUTOMATICAMENTE CON EL SIGUIENTE CODIGO : PIP INSTALL GEOPY, ESTA FACILITARA LA UBICACION DE LAS DIFERENTES UBICACIONES QUE SE SOLICITEN
+from geopy.geocoders import Nominatim
+from geopy import distance
+from datetime import timedelta
+import sys
+
+def obtener_ruta(ciudad1, ciudad2):
+    geolocator = Nominatim(user_agent="my_app")
+    location1 = geolocator.geocode(ciudad1)
+    location2 = geolocator.geocode(ciudad2)
+
+    coordenadas1 = (location1.latitude, location1.longitude)
+    coordenadas2 = (location2.latitude, location2.longitude)
+
+    distancia_km = round(distance.distance(coordenadas1, coordenadas2).kilometers, 1)
+# EN ESTE PUNTO INDICAMOS LA VELOCIDAD PROMEDIO A LA QUE IRA EL VEHICULO, EN ESTE CASO ES A UNA VELOCIDAD DE 60 KM/H
+    velocidad_promedio_km_h = 60 
+    tiempo_horas = distancia_km / velocidad_promedio_km_h
+#INDICAMOS QUE QUEREMOS QUE LA DURACION DE VIAJE NOS LA DE EN FORMATO HORA/MINUTO/SEGUNDOS
+    duracion = timedelta(hours=tiempo_horas)
+    duracion_formateada = str(duracion)
+
+    ruta = f"Para llegar de {ciudad1} a {ciudad2}, sigue la siguiente ruta:"
+    ruta += f"\n1. Parte de {ciudad1}."
+    ruta += f"\n2. Sigue por la carretera principal hacia el este durante {duracion_formateada}."
+    ruta += f"\n3. Llegarás a tu destino, {ciudad2}."
+    ruta += f"\n\nLa distancia total del recorrido es de {distancia_km} kilómetros."
+
+    print
+
+ciudad1 = input("Ingrese la primera ciudad: ")
+ciudad2 = input("Ingrese la segunda ciudad: ")
+
+#ACA VERIFIMACOS SI LA SALIDA ES CON O O LA PALABRA SALIDA EL PROGRAMA SE CERRARA, ESTE PROCESO SIRVE PARA LA CIUDAD DE ORIGEN COMO LA DE DESTINO
+if ciudad1.lower() == "s" or ciudad1.lower() == "salida":
+    sys.exit("Has decidido salir del programa.")
+
+
+if ciudad2.lower() == "s" or ciudad2.lower() == "salida":
+    sys.exit("Has decidido salir del programa.")
+#EN ESTE PUNTO INDICAMOS LA NARRATIVA DEL VIAJE CALCULOANDO Y MOSTRANDO LA DISTANCIA DE LA DURACION DEL RECORRIDO
+obtener_ruta(ciudad1, ciudad2)
