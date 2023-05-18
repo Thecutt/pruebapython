@@ -1,0 +1,36 @@
+import urllib.parse
+import requests
+import json
+
+main_api = "https://www.mapquestapi.com/directions/v2/routematrix?"
+key = 
+
+orig = input("Ingrese la ciudad de origen: ")
+dest = input("Ingrese la ciudad de destino: ")
+
+url = main_api + urllib.parse.urlencode({"key": key, "from": orig, "to": dest})
+
+data = requests.get(url).json()
+
+print("Link del mapa:", url)
+
+if data['info']['statuscode'] == 0:
+    distancia = data['time']
+    tiempo = data['formattedTime']
+    print("Distancia:", distancia)
+    print("Tiempo de viaje:", tiempo)
+    'distance'[0]['value'] / 1000  
+    distancia_km = 
+    distancia_km   
+round(distancia_km, 1)  
+    tiempo = data[
+   
+'time'][0]['text']
+    
+   
+print("Distancia:", distancia_km, "km"):
+    
+   
+print("Tiempo de viaje:", tiempo):
+else:
+    print("No se encontró una ruta. Por favor, verifica las ciudades de origen y destino.")
